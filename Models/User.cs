@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class User
+namespace APBD_TASK2.models
 {
-    private static int _nextId = 1;
-    public int IdUser { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public UserType Type { get; set; }
-    public User(string FirstName, string LastName, UserType Type)
+    public class User
     {
-        IdUser = _nextId++;
-        FirstName = FirstName;
-        LastName = LastName;
-        Type = Type;
+        private static int _nextId = 1;
+        public int IdUser { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public UserType Type { get; set; }
+
+        public User(string firstName, string lastName, UserType type)
+        {
+            IdUser = _nextId++;
+            FirstName = firstName;
+            LastName = lastName;
+            Type = type;
+        }
     }
-    
 }
