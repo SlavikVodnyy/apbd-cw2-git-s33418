@@ -44,8 +44,10 @@ namespace APBD_TASK2.Services
 
             var limitCheck = CheckLimit(userId);
             if (!limitCheck.Success)
+            {
                 Console.WriteLine($"Error");
                 return OperationResult.Fail(limitCheck.Message);
+            }
 
             var now = DateTime.Now;
             var due = now.AddDays(days);
@@ -61,19 +63,19 @@ namespace APBD_TASK2.Services
             var user = _repository.GetAllUsers().FirstOrDefault(u => u.IdUser == userId);
             if (user == null) return OperationResult.Fail("User not found");
 
+            int activeCount = _repository.GetAllRentalRecords().Count(r => r.IdUser == userId && !r.IsReturned);
             if (user.Type == UserType.student)
             {
-                int activeCount = _repository.GetAllRentalRecords().Count(r => r.IdUser == userId && !r.IsReturned);
+                
                 if (activeCount >= 2)
                     return OperationResult.Fail("Student user reached active rental limit (2)");
             }
             else if (user.Type == UserType.employee)
             {
-                int activeCount = _repository.GetAllRentalRecords().Count(r => r.IdUser == userId && !r.IsReturned);
                 if (activeCount >= 5)
                     return OperationResult.Fail("Staff user reached active rental limit (5)");
             }
-            return OperationResult.Ok("User rented a gadget");
+            return OperationResult.Ok($"User rented a gadget.");
         }
         public OperationResult ReturnEquipment(int equipmentId)
         {
