@@ -8,6 +8,7 @@ namespace APBD_TASK2.models
 
         public int Id { get; set; }
         public int IdUser { get; set; }
+        public int IdEquipment { get; set; }
 
         public DateTime RentalDate { get; set; }
         public DateTime? ReturnDate { get; set; }
@@ -22,10 +23,11 @@ namespace APBD_TASK2.models
 
         public decimal Total => Fee + Penalty;
 
-        public RentalRecord(int idUser, DateTime rentalDate, DateTime dueDate, decimal fee = 0m)
+        public RentalRecord(int idUser, int idEquipment, DateTime rentalDate, DateTime dueDate, decimal fee = 0m)
         {
             Id = _nextId++;
             IdUser = idUser;
+            IdEquipment = idEquipment;
             RentalDate = rentalDate;
             DueDate = dueDate;
             Fee = fee;
@@ -35,7 +37,7 @@ namespace APBD_TASK2.models
         {
             if (!IsReturned) return 0m;
 
-            var daysLate = (ReturnDate.Value.Date - DueDate.Date).Days;
+            int daysLate = (ReturnDate.Value.Date - DueDate.Date).Days;
             if (daysLate <= 0) return 0m;
 
           
