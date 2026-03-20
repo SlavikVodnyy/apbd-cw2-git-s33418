@@ -35,13 +35,15 @@ namespace APBD_TASK2.models
 
         private decimal CalculatePenalty()
         {
-            if (!IsReturned) return 0m;
+            if (!ReturnDate.HasValue)
+                return 0m;
 
             int daysLate = (ReturnDate.Value.Date - DueDate.Date).Days;
-            if (daysLate <= 0) return 0m;
 
-          
-            return daysLate * 5.0m;
+            if (daysLate <= 0)
+                return 0m;
+
+            return daysLate * 5m;
         }
 
         public bool MarkReturned(DateTime? returnDate = null)

@@ -38,14 +38,22 @@ Console.WriteLine(rentResult2.Message);
 var rentResult3 = manager.RentEquipment(user1.IdUser, desktop.IdEquipment, 5);
 Console.WriteLine(rentResult3.Message);
 
-var rentResult4 = manager.RentEquipment(user2.IdUser, mobilePhone.IdEquipment, 10);
+var rentResult4 = manager.RentEquipment(user2.IdUser, mobilePhone.IdEquipment, 1);
 Console.WriteLine(rentResult4.Message);
 
 var rentResult5 = manager.RentEquipment(user3.IdUser, tablet.IdEquipment, 5);
 Console.WriteLine(rentResult5.Message);
 
 // Return
-var returnResult = manager.ReturnEquipment(laptop.IdEquipment);
+var returnDate = DateTime.Now;
+
+var returnResult = manager.ReturnEquipment(laptop.IdEquipment, returnDate);
+Console.WriteLine(returnResult.Message);
+
+var lateDate = DateTime.Now.AddDays(5);
+
+var returnResult1 = manager.ReturnEquipment(mobilePhone.IdEquipment, lateDate);
+
 Console.WriteLine(returnResult.Message);
 
 // Report

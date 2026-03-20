@@ -9,7 +9,7 @@ namespace APBD_TASK2.Interfaces
         OperationResult AddEquipment(Equipment equipment);
         OperationResult AddUser(User user);
         OperationResult RentEquipment(int userId, int equipmentId, int days);
-        OperationResult ReturnEquipment(int equipmentId);
+        OperationResult ReturnEquipment(int equipmentId, DateTime returnDate );
         List<Equipment> GetAvailableEquipment();
         string GenerateReport();
     }

@@ -77,18 +77,27 @@ namespace APBD_TASK2.Services
             }
             return OperationResult.Ok($"User rented a gadget.");
         }
-        public OperationResult ReturnEquipment(int equipmentId)
+        public OperationResult ReturnEquipment(int equipmentId, DateTime returnDate)
         {
-            var equipment = _repository.GetAllEquipment().FirstOrDefault(e => e.IdEquipment == equipmentId);
-            if (equipment == null) return OperationResult.Fail("Equipment not found");
+            var equipment = _repository.GetAllEquipment()
+                .FirstOrDefault(e => e.IdEquipment == equipmentId);
 
-            var record = _repository.GetAllRentalRecords().FirstOrDefault(r => r.IdEquipment == equipmentId && !r.IsReturned);
-            if (record == null) return OperationResult.Fail("No active rental found for this equipment");
+            if (equipment == null)
+                return OperationResult.Fail("Equipment not found");
 
-            record.MarkReturned(DateTime.Now);
+            var record = _repository.GetAllRentalRecords()
+                .FirstOrDefault(r => r.IdEquipment == equipmentId && !r.IsReturned);
+
+            if (record == null)
+                return OperationResult.Fail("No active rental found");
+
+            record.MarkReturned(returnDate);
+
             equipment.Status = EquipmentStatus.available;
 
-            return OperationResult.Ok($"Equipment returned. Penalty: {record.Penalty:C}");
+            return OperationResult.Ok(
+                $"Equipment returned"
+            );
         }
 
         public List<Equipment> GetAvailableEquipment()
