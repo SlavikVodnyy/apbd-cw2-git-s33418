@@ -42,10 +42,10 @@ namespace APBD_TASK2.Services
             if (!equipment.IsAvailable || equipment.Status == EquipmentStatus.unavailable)
                 return OperationResult.Fail("Equipment is not available for rent");
 
-            int activeAllowed = user.Type == UserType.student ? 2 : 5;
-            int activeCount = _repository.GetAllRentalRecords().Count(r => r.IdUser == userId && !r.IsReturned);
-            if (activeCount >= activeAllowed)
-                return OperationResult.Fail($"User reached active rental limit ({activeAllowed})");
+            var limitCheck = CheckLimit(userId);
+            if (!limitCheck.Success)
+                Console.WriteLine($"Error");
+                return OperationResult.Fail(limitCheck.Message);
 
             var now = DateTime.Now;
             var due = now.AddDays(days);
@@ -73,7 +73,7 @@ namespace APBD_TASK2.Services
                 if (activeCount >= 5)
                     return OperationResult.Fail("Staff user reached active rental limit (5)");
             }
-            return OperationResult.Fail("Undefined user type");
+            return OperationResult.Ok("User rented a gadget");
         }
         public OperationResult ReturnEquipment(int equipmentId)
         {
