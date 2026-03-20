@@ -21,6 +21,8 @@ manager.AddEquipment(tablet);
 var  IpadAir = new Tablet("iPad Air", "Mid-range tablet", 256);
 manager.AddEquipment(IpadAir);
 
+var desktop = new Laptop("Dell XPS 8940", "Powerful desktop computer", 32, 27);
+
 
 var user = new User("Ivan", "Ivanov", UserType.student);
 manager.AddUser(user);
@@ -33,6 +35,15 @@ manager.AddUser(user3);
 
 var rentResult = manager.RentEquipment(user.IdUser, laptop.IdEquipment, 7);
 Console.WriteLine(rentResult.Message);
+manager.CheckLimit(user.IdUser);
+
+var rentResult1 = manager.RentEquipment(user.IdUser, IpadAir.IdEquipment, 3);
+Console.WriteLine(rentResult1.Message);
+manager.CheckLimit(user.IdUser);
+
+var rentResult4 = manager.RentEquipment(user.IdUser, desktop.IdEquipment, 5);
+Console.WriteLine(rentResult4.Message);
+manager.CheckLimit(user.IdUser);
 
 var rentResult2 = manager.RentEquipment(user2.IdUser, mobilePhone.IdEquipment, 10);
 Console.WriteLine(rentResult2.Message);

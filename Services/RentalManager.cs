@@ -57,6 +57,24 @@ namespace APBD_TASK2.Services
             return OperationResult.Ok("Equipment rented");
         }
 
+        public OperationResult CheckLimit(int userId){
+            var user = _repository.GetAllUsers().FirstOrDefault(u => u.IdUser == userId);
+            if (user == null) return OperationResult.Fail("User not found");
+
+            if (user.Type == UserType.student)
+            {
+                int activeCount = _repository.GetAllRentalRecords().Count(r => r.IdUser == userId && !r.IsReturned);
+                if (activeCount >= 2)
+                    return OperationResult.Fail("Student user reached active rental limit (2)");
+            }
+            else if (user.Type == UserType.employee)
+            {
+                int activeCount = _repository.GetAllRentalRecords().Count(r => r.IdUser == userId && !r.IsReturned);
+                if (activeCount >= 5)
+                    return OperationResult.Fail("Staff user reached active rental limit (5)");
+            }
+            return OperationResult.Fail("Undefined user type");
+        }
         public OperationResult ReturnEquipment(int equipmentId)
         {
             var equipment = _repository.GetAllEquipment().FirstOrDefault(e => e.IdEquipment == equipmentId);
