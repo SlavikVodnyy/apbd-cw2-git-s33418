@@ -25,5 +25,6 @@ namespace APBD_TASK2.Database
 
         public List<models.Equipment> Equipment { get; set; } = new List<models.Equipment>();
         public List<models.User> Users { get; set; } = new List<models.User>();
+        public List<models.RentalRecord> RentalRecords { get; set; } = new List<models.RentalRecord>();
     }
 }

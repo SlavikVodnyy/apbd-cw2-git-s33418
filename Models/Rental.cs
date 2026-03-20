@@ -44,6 +44,28 @@ namespace APBD_TASK2.models
             {
                 report.AppendLine($"- {equipment.Name} (Available: {equipment.IsAvailable})");
             }
+
+            report.AppendLine("Rental Records:");
+            foreach (var record in Singleton.Instance.RentalRecords)
+            {
+                var returned = record.IsReturned ? record.ReturnDate.Value.ToString("yyyy-MM-dd") : "Not returned";
+                string status;
+                if (!record.IsReturned)
+                {
+                    status = "Not yet returned.";
+                }
+                else if (record.ReturnDate.Value.Date <= record.DueDate.Date)
+                {
+                    status = "Was returned on time.";
+                }
+                else
+                {
+                    status = "Was returned late.";
+                }
+
+                report.AppendLine($"- UserId: {record.IdUser}, {record.RentalDate:yyyy-MM-dd} to {record.DueDate:yyyy-MM-dd}, Returned: {returned} {status} Penalty: {record.Penalty:C}");
+            }
+
             return report.ToString();
         }
     }
